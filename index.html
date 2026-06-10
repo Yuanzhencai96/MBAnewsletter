@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yuanzhen's MBA Newsletter</title>
+  <meta name="description" content="Reflections from two years of learning at Imperial College Business School." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #eaf1f8;
+      --ink: #0f1e30;
+      --muted: #4f6479;
+      --rule: #d3e0ec;
+      --accent: #003e74;
+      --accent-soft: #d6e4f1;
+      --accent-deep: #002c54;
+      --accent-warm: #b87333;
+      --paper: #ffffff;
+      --shadow: 0 1px 2px rgba(0,30,70,.05), 0 8px 24px rgba(0,30,70,.08);
+      --shadow-lift: 0 4px 8px rgba(0,30,70,.08), 0 20px 40px rgba(0,30,70,.14);
+      --ease: cubic-bezier(.2,.8,.2,1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(234,241,248,.88);
+      backdrop-filter: saturate(180%) blur(14px);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-family: 'Fraunces', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -.01em;
+      text-decoration: none;
+    }
+
+    .brand .dot { color: var(--accent-warm); }
+
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color .25s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 1.5px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s var(--ease);
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 80px 28px 72px;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-text { display: flex; flex-direction: column; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1.5px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(38px, 5vw, 66px);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      color: var(--ink);
+      margin-bottom: 22px;
+    }
+
+    .hero .lede {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.72;
+      max-width: 540px;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      margin-top: 32px;
+      padding-top: 22px;
+      border-top: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .hero-meta span { display: flex; align-items: center; gap: 7px; }
+
+    .bullet {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent-warm);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* ── HERO AVATAR ── */
+    .hero-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .avatar-img {
+      width: 100%;
+      max-width: 380px;
+      display: block;
+    }
+
+    /* If no avatar image yet, show a placeholder */
+    .avatar-placeholder {
+      width: 320px;
+      height: 380px;
+      border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+      background: linear-gradient(135deg, var(--accent-soft) 0%, #c5d9ee 100%);
+      border: 2px dashed var(--rule);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    /* ── ARTICLES SECTION ── */
+    .articles {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 28px 112px;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .section-label span {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .rule-line { flex: 1; height: 1px; background: var(--rule); }
+
+    /* ── CARD GRID — all cards same size ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    /* 5th card: centered at same width as siblings */
+    .article-card:nth-child(5) {
+      grid-column: 1 / -1;
+      max-width: calc(50% - 10px);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ── ARTICLE CARD ── */
+    .article-card {
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .35s;
+    }
+
+    .article-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lift);
+      border-color: var(--accent-soft);
+    }
+
+    /* ── CARD IMAGE ── */
+    .card-img {
+      width: 100%;
+      height: 210px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--accent-soft);
+      position: relative;
+    }
+
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+      transition: transform .5s var(--ease);
+    }
+
+    .article-card:hover .card-img img {
+      transform: scale(1.05);
+    }
+
+    /* ── CARD BODY ── */
+    .card-body {
+      padding: 28px 32px 28px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* ── CARD ELEMENTS ── */
+    .card-tag {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 4px 11px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .card-tag.warm   { color: var(--accent-warm); background: #f5e9dc; }
+    .card-tag.green  { color: #2a7349;            background: #d9f0e3; }
+    .card-tag.violet { color: #5c3d8f;            background: #ece5f5; }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-size: 21px;
+      font-weight: 500;
+      line-height: 1.24;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.68;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .card-date {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .read-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: .02em;
+    }
+
+    .read-arrow {
+      display: inline-block;
+      transition: transform .25s var(--ease);
+    }
+
+    .article-card:hover .read-arrow { transform: translateX(4px); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 44px 28px;
+      text-align: center;
+    }
+
+    footer p { font-size: 13px; color: var(--muted); line-height: 1.8; }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-text  { animation: fadeUp .55s var(--ease) both; }
+    .hero-avatar { animation: fadeUp .55s .1s var(--ease) both; }
+    .article-card:nth-child(1) { animation: fadeUp .5s .12s var(--ease) both; }
+    .article-card:nth-child(2) { animation: fadeUp .5s .16s var(--ease) both; }
+    .article-card:nth-child(3) { animation: fadeUp .5s .20s var(--ease) both; }
+    .article-card:nth-child(4) { animation: fadeUp .5s .24s var(--ease) both; }
+    .article-card:nth-child(5) { animation: fadeUp .5s .28s var(--ease) both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 64px 28px 48px;
+      }
+      .hero-avatar { order: -1; }
+      .avatar-img { max-width: 240px; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 56px 20px 40px; }
+      .articles { padding: 0 20px 80px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .article-card:nth-child(5) {
+        grid-column: auto;
+        max-width: 100%;
+      }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#">Yuanzhen <span class="dot">·</span> MBA Newsletter</a>
+    <div class="nav-links">
+      <a href="#articles">Articles</a>
+      <a href="https://www.linkedin.com/in/yuanzhen-cai-a8219b195/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="eyebrow">Imperial College London · MBA Journey</div>
+    <h1>Yuanzhen's MBA Newsletter</h1>
+    <p class="lede">
+      Reflections from two years at Imperial College Business School — case studies, electives, and experiences across strategy, leadership, sales, and global markets.
+    </p>
+    <div class="hero-meta">
+      <span><span class="bullet"></span> 5 articles</span>
+      <span><span class="bullet"></span> Imperial College Business School</span>
+      <span><span class="bullet"></span> 2025 – 2026</span>
+    </div>
+  </div>
+
+  <div class="hero-avatar">
+    <!--
+      Save your avatar illustration as img/avatar.png
+      The mix-blend-mode: multiply CSS will make the white background
+      visually transparent against the page's light blue background.
+    -->
+    <img class="avatar-img" src="img/avatar.png" alt="Yuanzhen Cai"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+    <div class="avatar-placeholder" style="display:none;">
+      <span style="font-size:40px;">🖼️</span>
+      <span>Save your illustration<br/>as <strong>img/avatar.png</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section class="articles" id="articles">
+
+  <div class="section-label">
+    <span>All articles</span>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="card-grid">
+
+    <!-- 1: Breakout Strategy -->
+    <a class="article-card" href="https://yuanzhencai96.github.io/breakout-strategy/" target="_blank" rel="noopener">
+      <div class="card-img">
+        <img src="img/breakout.jpg" alt="Breakout Strategy class" style="object-position: center 60%;" />
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Business Strategy</span>
+        <h3 class="card-title">Breakout Strategy · The Laerdal Case</h3>
+        <p class="card-desc">Three days learning how good companies become great ones. A deep dive into Laerdal Medical's shift to a platform-led business model — examining capital accumulation, Asia-Pacific expansion, and what it takes to break out.</p>
+        <div class="card-footer">
+          <span class="card-date">May 2026</span>
+          <span class="read-link">Read <span class="read-arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 2: Sales Psychology -->
+    <a class="article-card" href="https://yuanzhencai96.github.io/sales-psychology/" target="_blank" rel="noopener">
+      <div class="card-img">
+        <img src="img/sales.jpg" alt="Sales Psychology session" style="object-position: center 60%;" />
+      </div>
+      <div class="card-body">
+        <span class="card-tag warm">Sales &amp; Behaviour</span>
+        <h3 class="card-title">The Psychology of Sales</h3>
+        <p class="card-desc">What five weeks on the Psychology of Sales changed in how I think about selling — the behavioural and psychological foundations behind effective sales conversations.</p>
+        <div class="card-footer">
+          <span class="card-date">Apr – May 2026</span>
+          <span class="read-link">Read <span class="read-arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 3: GEW Kenya -->
+    <a class="article-card" href="https://yuanzhencai96.github.io/GEWKenya/" target="_blank" rel="noopener">
+      <div class="card-img">
+        <img src="img/kenya.jpg" alt="Group photo in Kenya" />
+      </div>
+      <div class="card-body">
+        <span class="card-tag green">Global Experience</span>
+        <h3 class="card-title">How Business Addresses Inequality — a Week in Nairobi</h3>
+        <p class="card-desc">A week with founders, executives, NGOs, and social enterprises across Kenya — exploring how innovation and design take shape in frontier markets.</p>
+        <div class="card-footer">
+          <span class="card-date">April 2026</span>
+          <span class="read-link">Read <span class="read-arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 4: Strategic Networking -->
+    <a class="article-card" href="https://yuanzhencai96.github.io/strategic-networking/" target="_blank" rel="noopener">
+      <div class="card-img">
+        <img src="img/Networking.JPG" alt="Strategic Networking class" />
+      </div>
+      <div class="card-body">
+        <span class="card-tag violet">Networks &amp; Ideas</span>
+        <h3 class="card-title">Strategic Networking</h3>
+        <p class="card-desc">Reflections from three days with Professor Anne ter Wal on how the way we build and mobilise networks shapes whether new ideas live or die inside an organisation.</p>
+        <div class="card-footer">
+          <span class="card-date">May 2026</span>
+          <span class="read-link">Read <span class="read-arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 5: Strategy & Leadership in Digital World -->
+    <a class="article-card" href="https://yuanzhencai96.github.io/Strategy-and-leadership-in-digital-world/" target="_blank" rel="noopener">
+      <div class="card-img">
+        <img src="img/digital.jpg" alt="Strategy and Leadership session" style="object-position: center 60%;" />
+      </div>
+      <div class="card-body">
+        <span class="card-tag">Digital Strategy</span>
+        <h3 class="card-title">Strategy &amp; Leadership in a Digital World</h3>
+        <p class="card-desc">Digital transformation is not merely a technology upgrade. A fundamental shift in how economies, financial systems, companies, and leaders create value in the platform era.</p>
+        <div class="card-footer">
+          <span class="card-date">Apr – May 2026</span>
+          <span class="read-link">Read <span class="read-arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<footer>
+  <p>
+    Yuanzhen Cai · Imperial College Business School MBA<br />
+    <a href="mailto:Yuanzhen.Cai@laerdal.com">Yuanzhen.Cai@laerdal.com</a>
+  </p>
+</footer>
+
+</body>
+</html>
